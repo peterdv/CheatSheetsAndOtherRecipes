@@ -20,12 +20,12 @@ This is a random collection of Cheat Sheets and other Recipes
 which I personally have found usefull enough
 to document and store.
 
-I maintain the collection at the `CheatSheetsAndOtherRecipes github.com repository`_.
+I maintain the collection at the `CheatSheetsAndOtherRecipes github repository`_.
 
-.. _`CheatSheetsAndOtherRecipes githum.com repository`: https://github.com/peterdv/CheatSheetsAndOtherRecipes
+.. _`CheatSheetsAndOtherRecipes github repository`: https://github.com/peterdv/CheatSheetsAndOtherRecipes
 
 If You decide to go ahead and tailor this work to fit Your purposes,
-please read the `License` file, 
+please read the `License`_ file, 
 it should be wide enough to fit most purposes.
 You may wish to clone this repository using
 `git clone git@github.com:peterdv/CheatSheetsAndOtherRecipes`,
