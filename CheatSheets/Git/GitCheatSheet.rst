@@ -23,6 +23,9 @@ Recipes
 which I personally have found usefull enough
 to document and store.
 
+For detailled discussion, please consult the
+`Pro Git book <https://git-scm.com/book/en>`_
+
 .. contents:: 
    :local:
    :depth: 2  
@@ -309,8 +312,8 @@ To make a hotfix, use the process:
 --------------
 
 
-Getting and Creating Projects
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+`git` Getting and Creating Projects
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. list-table:: Getting and Creating Projects
    :widths: 60 40
@@ -319,17 +322,136 @@ Getting and Creating Projects
    * - Command
      - Description
    * - `git init`
-     - Initialize a local Git repository
+     - Initialize a local Git repository.
    * - `git clone git@github.com/<username>/<repository-name>.git`
-     - Create a local copy of an upstream remote repository
+     - Create a local copy of an upstream remote repository.
    * - `git checkout -b develop origin/develop`
      - Create a local copy of the branch `develop` from
        the upstream remote repository.
-       Assuming You are in a cloned repository,
+       Assuming You are in a cloned repository.
    * - `git branch -vv`
-     - check tracking branches
-   * - `git push --set-upstream origin develop`
-     - As you push local branch with `git push --set-upstream` option,
+     - check tracking branches.
+
+
+`git` Basic work
+^^^^^^^^^^^^^^^^
+
+.. list-table:: Basic work
+   :widths: 60 40
+   :header-rows: 1
+
+   * - Command
+     - Description
+   * - `git status`
+     - Check status.
+   * - `git add <file-name>`
+     - Add a file to the staging area.
+   * - `git add <directory-name>`
+     - Add a directory and all of its contents to the staging area.
+   * - `git add -A`
+     - Add all new and changed files to the staging area.
+   * - `git commit -m "<commit message>"`
+     - Commit changes in the staging area to the local branch.
+   * - `git rm -r <file-name>`
+     - Stage a file (or folder) for removal.
+
+git Branching and Merging
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. list-table:: Branching and Merging
+   :widths: 60 40
+   :header-rows: 1
+
+   * - Command
+     - Description
+   * - `git branch`
+     - List branches (the asterisk denotes the current branch).
+   * - `git branch -a`
+     - List all branches (local and remote).
+   * - `git branch <branch name>`
+     - Create a new branch.
+   * - `git branch -d <branch name>`
+     - Delete a branch.
+   * - `git push origin --delete <branch name>`
+     - Delete a remote branch.
+   * - `git checkout -b <branch name>`
+     - Create a new branch
+       and switch to it.
+   * - `git checkout -b <branch name> origin/<branch name>`
+     - Clone a remote branch and switch to it.
+   * - `git branch -m <old branch name> <new branch name>`
+     - Rename a local branch.
+   * - `git checkout <branch name>`
+     - Switch to a local branch.
+   * - `git checkout -`
+     - Switch to the branch last checked out.
+   * - `git checkout -- <file-name>`
+     - Discard changes to a file.
+   * - `git merge <branch name>`
+     - Merge a branch into the active branch.
+   * - `git merge <source branch> <target branch>`
+     - Merge a branch into a target branch.
+   * - `git stash`
+     - Stash changes in a dirty working directory,
+       and revert all uncommitted changes
+       in the working directory.
+   * - `git stash list`
+     - See which stashes you have stored.
+   * - `git stash apply [<stash-name>]`
+     - Re-modifies the files you reverted when you saved the stash.
+
+       You can save a stash on one branch,
+       switch to another branch later, and try to reapply the changes.
+       You can also have modified and uncommitted files
+       in your working directory when you apply a stash — Git gives you
+       merge conflicts if anything no longer applies cleanly.
+   * - `git stash clear`
+     -  Remove all stashed entries.
+
+       
+       
+`git` Inspecting and Comparing Projects
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. list-table:: Inspection
+   :widths: 60 40
+   :header-rows: 1
+
+   * - Command
+     - Description
+   * - `git log`
+     - View changes.
+   * - `git log--summary`
+     - View changes (detailed).
+   * - `git log--oneline`
+     - View changes (one line summary).
+   * - `git diff`
+     - Preview changes before commiting.
+   * - `git diff <source branch> <target branch>`
+     - Preview changes before merging.
+       
+
+       
+`git` Publishing and Updating Projects
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. list-table:: Publishing, Sharing and Updating Projects
+   :widths: 60 40
+   :header-rows: 1
+
+   * - Command
+     - Description
+   * - `git status -uno`
+     - Tell you whether the branch you are tracking is ahead, behind or has diverged.
+       If it says nothing, the local and remote are the same.
+   * - `git push origin <branch name>`
+     - Push a local branch `<branch name>` to the remote repository.
+   * - `git push origin --tags`
+     - Push your tags to the remote repository.
+   * - `git push --set-upstream origin <branch name>`
+     - As you push local branch `<branch name>` with
+       `--set-upstream` option,
        that local branch is linked with the remote branch automatically.
        The `--set-upstream` flag is used to set `origin`
        as the upstream remote in your git config.
@@ -339,7 +461,20 @@ Getting and Creating Projects
        and want to include it in the upstream remote repository.
        The `--set-upstream` and the `-u` flags
        should be equivalent.
-
+   * - `git push`
+     - Push changes to remote repository (remembered branch).
+   * - `git push origin --delete <branch name>`
+     - Delete the remote branch `<branch name>`.
+   * - `git pull origin <branch name>`
+     - Pull changes from remote branch `<branch name>`.
+   * - `git pull`
+     - Update local repository to the newest commit
+       in the remote repository.
+   * - `git remote add origin ssh://git@github.com/<username>/<repository-name>.git`
+     - Add a remote repository.
+   * - `git remote set-url origin ssh://git@github.com/<username>/<repository-name>.git`
+     - Set a repository's origin branch to use the SSH protocol.
+       
        
 Configuration of `git`
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -404,7 +539,7 @@ We have Two branches:
 
 And one remote:
 
-* `origin` is a remote
+* `origin` is a remote.
 
 
 
