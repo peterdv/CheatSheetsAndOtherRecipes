@@ -392,19 +392,19 @@ and `origin/master` is one thing.
 
 We have Two branches:
 
-    * `master` is a local branch.
+* `master` is a local branch.
       
-    * `origin/master` A local representation of (or a pointer to)
-      the remote branch.
-      It is an entity
-      (since it is not a physical branch)
-      representing the state of the `master` branch on the remote `origin`.
-      Think of it as a remote branch (like a local copy
-      of the branch named "master" on the remote named "origin").
+* `origin/master` A local representation of (or a pointer to)
+  the remote branch.
+  It is an entity
+  (since it is not a physical branch)
+  representing the state of the `master` branch on the remote `origin`.
+  Think of it as a remote branch (like a local copy
+  of the branch named "master" on the remote named "origin").
 
 And one remote:
 
-     `origin` is a remote
+* `origin` is a remote
 
 
 
