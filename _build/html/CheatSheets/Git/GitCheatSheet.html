@@ -1,0 +1,500 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>git Cheat Sheet &#8212; CheatSheetsAndOtherRecipes 0.1.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="License" href="../../license.html" />
+    <link rel="prev" title="Cheat Sheets" href="../cheatsheets.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="git-cheat-sheet">
+<h1><cite>git</cite> Cheat Sheet<a class="headerlink" href="#git-cheat-sheet" title="Permalink to this headline">¶</a></h1>
+<p>This is a collection of frequently used
+<a class="reference external" href="https://git-scm.com/">git</a>
+commands and
+Recipes
+which I personally have found usefull enough
+to document and store.</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#git-recipes" id="id3"><cite>git</cite> recipes</a><ul>
+<li><a class="reference internal" href="#creating-projects" id="id4">Creating Projects</a></li>
+<li><a class="reference internal" href="#creating-a-new-feature" id="id5">Creating a new feature</a></li>
+<li><a class="reference internal" href="#make-a-release" id="id6">Make a release</a></li>
+<li><a class="reference internal" href="#make-a-hotfix" id="id7">Make a hotfix</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#git-commands" id="id8"><cite>git</cite> Commands</a><ul>
+<li><a class="reference internal" href="#getting-and-creating-projects" id="id9">Getting and Creating Projects</a></li>
+<li><a class="reference internal" href="#configuration-of-git" id="id10">Configuration of <cite>git</cite></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#git-clarifications" id="id11"><cite>git</cite> Clarifications</a><ul>
+<li><a class="reference internal" href="#the-difference-between-origin-master-origin-and-master" id="id12">The difference between <cite>origin/master</cite>, <cite>origin</cite> and <cite>master</cite></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="git-recipes">
+<h2><a class="toc-backref" href="#id3"><cite>git</cite> recipes</a><a class="headerlink" href="#git-recipes" title="Permalink to this headline">¶</a></h2>
+<p>Many of the processes follows
+<a class="reference external" href="http://nvie.com/posts/a-successful-git-branching-model/">Vincent Driessen’s branching model</a>.</p>
+<p>It is perfectly possible to use this branching model via
+a sequence of pure <cite>git</cite> commands.</p>
+<p>To achieve a consistent use of these commands
+<a class="reference external" href="https://github.com/nvie/gitflow">git-flow</a>
+provides high-level repository operations
+for Vincent Driessen’s branching model.</p>
+<p>Based on two central branches <cite>master</cite> and <cite>develop</cite>,
+the overall processes of <cite>git-flow</cite> are:</p>
+<ol class="arabic simple">
+<li>A <cite>develop</cite> branch is created from <cite>master</cite>.</li>
+<li>A release branch is created from <cite>develop</cite>.</li>
+<li>Feature branches are created from <cite>develop</cite>.</li>
+<li>When a feature is complete
+it is merged into the <cite>develop</cite> branch.</li>
+<li>When the release branch is done
+it is merged into <cite>develop</cite> and <cite>master</cite>.</li>
+<li>If an issue in <cite>master</cite> is detected,
+a hotfix branch is created from <cite>master</cite>.</li>
+<li>Once the hotfix is complete,
+it is merged to both <cite>develop</cite> and <cite>master</cite>.</li>
+</ol>
+<div class="section" id="creating-projects">
+<h3><a class="toc-backref" href="#id4">Creating Projects</a><a class="headerlink" href="#creating-projects" title="Permalink to this headline">¶</a></h3>
+<p>After creating an initial repository at github.com, containing only a README file, the
+process of prepping the repository is:</p>
+<ol class="arabic simple">
+<li>Create a local copy of the remote repository.</li>
+<li>Configure <cite>git-flow</cite> using the default values
+and create the local <cite>develop</cite> branch.</li>
+<li>Create the newly created <cite>develop</cite> branch in the remote repository,
+so it is easily avaliable for your collaborators.
+Link the local branch with the remote branch</li>
+</ol>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="o">--</span><span class="n">recursive</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="o">/&lt;</span><span class="n">username</span><span class="o">&gt;/&lt;</span><span class="n">repository</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="o">&lt;</span><span class="n">repository</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+<span class="n">git</span> <span class="n">flow</span> <span class="n">init</span> <span class="o">-</span><span class="n">d</span>
+<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="nb">set</span><span class="o">-</span><span class="n">upstream</span> <span class="n">origin</span> <span class="n">develop</span>
+</pre></div>
+</div>
+<p>You might want to check the result using
+<cite>git branch -a -vv</cite>,
+which should produce something like:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ git branch -a -vv
+* develop                b3b6205 [origin/develop] Merge tag &#39;0.1.0&#39; into develop
+  master                 4f8cc3f [origin/master] Merge branch &#39;release/0.1.0&#39;
+  remotes/origin/HEAD    -&gt; origin/master
+  remotes/origin/develop b3b6205 Merge tag &#39;0.1.0&#39; into develop
+  remotes/origin/master  4f8cc3f Merge branch &#39;release/0.1.0&#39;
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-a-new-feature">
+<h3><a class="toc-backref" href="#id5">Creating a new feature</a><a class="headerlink" href="#creating-a-new-feature" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Develop new features for upcoming releases.</li>
+<li>The feature branches typically exist in developers repos only.</li>
+</ul>
+<p>Each new feature should reside in its own branch,
+which can be pushed to the central repository
+for backup/collaboration.
+But, instead of branching off of <cite>master</cite>,
+feature branches use <cite>develop</cite> as their parent branch.
+When a feature is complete, it gets merged back into <cite>develop</cite>.
+Features should never interact directly with <cite>master</cite>.</p>
+<p>Feature branches are generally created off the latest <cite>develop</cite> branch.</p>
+<p>Start to implement a new feature following the process:</p>
+<ol class="arabic simple">
+<li>List any local feature branches
+(to ensure that you have not started on this once before).</li>
+<li>Create a local feature branch based on <cite>develop</cite> and swithc to it.</li>
+<li>Then,<ul>
+<li>Do the work and commit your changes to the feature branch.</li>
+<li>Test the feature.</li>
+<li>Fix bugs and commit your changes to the feature branch.</li>
+</ul>
+</li>
+<li>Finish the feature:<ul>
+<li>Merge the feature branch into the local <cite>develop</cite> branch,</li>
+<li>remove the local feature branch</li>
+<li>and switch back to the <cite>develop</cite> branch.</li>
+</ul>
+</li>
+</ol>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">flow</span> <span class="n">feature</span>
+<span class="n">git</span> <span class="n">flow</span> <span class="n">feature</span> <span class="n">start</span> <span class="o">&lt;</span><span class="n">your</span> <span class="n">feature</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">base</span><span class="o">&gt;</span><span class="p">]</span>
+
+<span class="c1"># Then, do the work</span>
+
+<span class="n">git</span> <span class="n">flow</span> <span class="n">feature</span> <span class="n">finish</span> <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>For feature branches, the <cite>&lt;base&gt;</cite> argument must be a commit on <cite>develop</cite>.</p>
+<p>You could also decide to push a feature branch to the remote repository,
+to allow collaboration with others via the remote repository</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">flow</span> <span class="n">feature</span> <span class="n">publish</span> <span class="o">&lt;</span><span class="n">your</span> <span class="n">feature</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="make-a-release">
+<h3><a class="toc-backref" href="#id6">Make a release</a><a class="headerlink" href="#make-a-release" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>The preparation of a new production release.</li>
+<li>Allow for minor bug fixes and preparing meta-data for a release.</li>
+<li>The release branche typically exist in
+developers local repositories <em>and</em> in a shared (central) repository.</li>
+</ul>
+<p>Once develop has acquired enough features for a release
+(or a predetermined release date is approaching),
+you fork a release branch off of develop.
+Creating this branch starts the next release cycle,
+so no new features can be added after this point
+— only bug fixes, documentation generation,
+and other release-oriented tasks should go in this branch.
+Once it’s ready to ship,
+the release branch gets merged into <cite>master</cite>
+and tagged with a version number.
+In addition, it should be merged back into <cite>develop</cite>,
+which may have progressed since the release was initiated.</p>
+<p>Using a dedicated branch to prepare releases
+makes it possible for one team to polish the current release
+while another team continues working on features for the next release.
+It also creates well-defined phases of development
+(e.g., it’s easy to say, “This week we’re preparing for version 4.0,”
+and to actually see it in the structure of the repository).</p>
+<p>To make a release, use the process:</p>
+<ol class="arabic simple">
+<li>Creates a release branch created from the <cite>develop</cite> branch.</li>
+<li>It’s wise to publish the release branch after creating it
+to allow release commits by other developers.
+You can track a remote release with the
+<cite>git flow release track &lt;remote release&gt;</cite> command.`</li>
+<li>Then,<ul>
+<li>Do the work and commit your changes to the release branch.</li>
+<li>Test the release.</li>
+<li>Fix bugs and commit your changes to the release branch.</li>
+</ul>
+</li>
+<li>Finish up a release.
+This is one of the big steps in git branching.
+It performs several actions:<ul>
+<li>Merges the <cite>release branch back into `master</cite>.</li>
+<li>Tags the release with its name.</li>
+<li>Back-merges the release into <cite>develop</cite>.</li>
+<li>Removes the release branch.</li>
+</ul>
+</li>
+<li>Publish the release</li>
+<li>Publish the <cite>develop</cite> branch.</li>
+<li>Publish your tags</li>
+</ol>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">flow</span> <span class="n">release</span> <span class="n">start</span> <span class="o">&lt;</span><span class="n">your</span> <span class="n">release</span><span class="o">&gt;</span>  <span class="p">[</span><span class="o">&lt;</span><span class="n">base</span><span class="o">&gt;</span><span class="p">]</span>
+<span class="n">git</span> <span class="n">flow</span> <span class="n">release</span> <span class="n">publish</span> <span class="o">&lt;</span><span class="n">your</span> <span class="n">release</span><span class="o">&gt;</span>
+
+<span class="c1"># Then, do the work</span>
+
+
+<span class="n">git</span> <span class="n">flow</span> <span class="n">release</span> <span class="n">finish</span> <span class="o">&lt;</span><span class="n">your</span> <span class="n">release</span><span class="o">&gt;</span>
+<span class="n">git</span> <span class="n">flow</span> <span class="n">release</span> <span class="n">publish</span> <span class="o">&lt;</span><span class="n">your</span> <span class="n">release</span><span class="o">&gt;</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">develop</span>
+<span class="c1"># or if you did not track develop: git push --set-upstream origin develop</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="o">--</span><span class="n">tags</span>
+</pre></div>
+</div>
+<p>For release branches, the <cite>&lt;base&gt;</cite> argument must be a commit on <cite>develop</cite>.</p>
+</div>
+<div class="section" id="make-a-hotfix">
+<h3><a class="toc-backref" href="#id7">Make a hotfix</a><a class="headerlink" href="#make-a-hotfix" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Hotfixes arise from the necessity to act immediately
+upon an undesired state of a live production version.</li>
+<li>May be branched off from the corresponding tag on the master branch
+that marks the production version.</li>
+<li>The hotfix branches typically exist in developers repos only.</li>
+</ul>
+<p>Maintenance or “hotfix” branches are used to quickly patch
+production releases.
+Hotfix branches are a lot like release branches and feature branches
+except they’re based on <cite>master</cite> instead of <cite>develop</cite>.
+This is the only branch that should fork directly off of <cite>master</cite>.
+As soon as the fix is complete,
+it should be merged into both <cite>master</cite> and <cite>develop</cite>
+(or the current release branch),
+and <cite>master</cite> should be tagged with an updated version number.</p>
+<p>To make a hotfix, use the process:</p>
+<ol class="arabic simple">
+<li>Creates a hotfix branch from the <cite>master</cite> branch.
+The <cite>version</cite> argument marks the new hotfix release name.
+Optionally you can specify a <cite>basename</cite> to start from.</li>
+<li>Then,<ul>
+<li>Do the work and commit your changes to the hotfix branch.</li>
+<li>Test the hotfix.</li>
+<li>Fix bugs and commit your changes to the hotfix branch.</li>
+</ul>
+</li>
+<li>Finish up a hotfix.<ul>
+<li>The hotfix branch is merged back into develop and master.</li>
+<li>The <cite>master</cite> merge is tagged with the hotfix <cite>version</cite>.</li>
+</ul>
+</li>
+<li>Publish <cite>master</cite> including the merged hotfix branch.</li>
+<li>Publish <cite>develop</cite> including the merged hotfix branch.</li>
+<li>Publish your tags</li>
+</ol>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">flow</span> <span class="n">hotfix</span> <span class="n">start</span> <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">basename</span><span class="o">&gt;</span><span class="p">]</span>
+
+<span class="c1"># Then, do the work</span>
+
+<span class="n">git</span> <span class="n">flow</span> <span class="n">hotfix</span> <span class="n">finish</span> <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">master</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">develop</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="o">--</span><span class="n">tags</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="git-commands">
+<h2><a class="toc-backref" href="#id8"><cite>git</cite> Commands</a><a class="headerlink" href="#git-commands" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="getting-and-creating-projects">
+<h3><a class="toc-backref" href="#id9">Getting and Creating Projects</a><a class="headerlink" href="#getting-and-creating-projects" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="colwidths-given docutils" id="id1">
+<caption><span class="caption-text">Getting and Creating Projects</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="60%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><cite>git init</cite></td>
+<td>Initialize a local Git repository</td>
+</tr>
+<tr class="row-odd"><td><cite>git clone git&#64;github.com/&lt;username&gt;/&lt;repository-name&gt;.git</cite></td>
+<td>Create a local copy of an upstream remote repository</td>
+</tr>
+<tr class="row-even"><td><cite>git checkout -b develop origin/develop</cite></td>
+<td>Create a local copy of the branch <cite>develop</cite> from
+the upstream remote repository.
+Assuming You are in a cloned repository,</td>
+</tr>
+<tr class="row-odd"><td><cite>git branch -vv</cite></td>
+<td>check tracking branches</td>
+</tr>
+<tr class="row-even"><td><cite>git push –set-upstream origin develop</cite></td>
+<td>As you push local branch with <cite>git push –set-upstream</cite> option,
+that local branch is linked with the remote branch automatically.
+The <cite>–set-upstream</cite> flag is used to set <cite>origin</cite>
+as the upstream remote in your git config.
+As you push a branch successfully or update it,
+it adds an upstream reference.
+Usefull if you crated the <cite>develop</cite> branch locally,
+and want to include it in the upstream remote repository.
+The <cite>–set-upstream</cite> and the <cite>-u</cite> flags
+should be equivalent.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="configuration-of-git">
+<h3><a class="toc-backref" href="#id10">Configuration of <cite>git</cite></a><a class="headerlink" href="#configuration-of-git" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="colwidths-given docutils" id="id2">
+<caption><span class="caption-text">Getting and Creating Projects</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="60%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><cite>git config –global user.name “My Name”</cite></td>
+<td><p class="first">Set your display name used by <cite>git</cite>.</p>
+<p class="last">It is immutably baked into the commits you create.
+You need to do this only once if you pass the <cite>–global</cite> option,
+because then <cite>git</cite> will always use that information for anything
+your current operating system user do on that system.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><cite>git config –global user.email “my_email&#64;example.com”</cite></td>
+<td><p class="first">Set your email address used by <cite>git</cite>.</p>
+<p class="last">It is immutably baked into the commits you create.
+You need to do this only once if you pass the <cite>–global</cite> option,
+because then <cite>git</cite> will always use that information for anything
+your current operating system user do on that system.</p>
+</td>
+</tr>
+<tr class="row-even"><td><cite>git config –global branch.autosetuprebase always</cite></td>
+<td><p class="first">Use rebase instead of merge.</p>
+<p class="last">Change all <cite>git pull</cite> commands to use <cite>git rebase</cite>
+instead of <cite>git merge</cite>.
+Rebasing is prefered over merging by many,
+it prevents unnecessary merge commits ensuring a linear history.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><cite>git config –global core.editor “vi”</cite></td>
+<td>Set the editor to <cite>vi</cite> only for Git.</td>
+</tr>
+<tr class="row-even"><td><cite>git config -l</cite></td>
+<td>List all configurations for Git.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="git-clarifications">
+<h2><a class="toc-backref" href="#id11"><cite>git</cite> Clarifications</a><a class="headerlink" href="#git-clarifications" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-difference-between-origin-master-origin-and-master">
+<h3><a class="toc-backref" href="#id12">The difference between <cite>origin/master</cite>, <cite>origin</cite> and <cite>master</cite></a><a class="headerlink" href="#the-difference-between-origin-master-origin-and-master" title="Permalink to this headline">¶</a></h3>
+<p>There are actually three things here:
+<cite>origin</cite> and <cite>master</cite> are two separate things,
+and <cite>origin/master</cite> is one thing.</p>
+<p>We have Two branches:</p>
+<blockquote>
+<div><ul class="simple">
+<li><cite>master</cite> is a local branch.</li>
+<li><cite>origin/master</cite> A local representation of (or a pointer to)
+the remote branch.
+It is an entity
+(since it is not a physical branch)
+representing the state of the <cite>master</cite> branch on the remote <cite>origin</cite>.
+Think of it as a remote branch (like a local copy
+of the branch named “master” on the remote named “origin”).</li>
+</ul>
+</div></blockquote>
+<p>And one remote:</p>
+<blockquote>
+<div><cite>origin</cite> is a remote</div></blockquote>
+<div class="section" id="example-pull-in-two-steps">
+<h4>Example: pull in two steps<a class="headerlink" href="#example-pull-in-two-steps" title="Permalink to this headline">¶</a></h4>
+<p>Since <cite>origin/master</cite> is a branch, you can merge it.
+Here’s a pull in two steps:</p>
+<p>Step one, fetch <cite>master</cite> from the remote <cite>origin</cite>.
+The <cite>master</cite> branch on <cite>origin</cite> will be fetched
+and the resulting local copy will be named <cite>origin/master</cite>.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">origin</span> <span class="n">master</span>
+</pre></div>
+</div>
+<p>Step two, merge <cite>origin/master</cite> into the local branch <cite>master</cite>.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">merge</span> <span class="n">origin</span><span class="o">/</span><span class="n">master</span>
+</pre></div>
+</div>
+<p>Having completed the pull in two steps,
+you can for example push your new local changes in <cite>master</cite>
+back to the remote <cite>origin</cite>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">master</span>
+</pre></div>
+</div>
+<p>Likewise you can push your local changes in the local <cite>develop</cite> branch
+back to the remote <cite>develop</cite> branch on <cite>origin</cite>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">develop</span>
+</pre></div>
+</div>
+<p>Usually after doing a <cite>git fetch origin</cite> to bring all the changes
+from the server,
+you would do a <cite>git rebase origin/master</cite>,
+to rebase your changes and move the branch to the latest index.
+Here, <cite>origin/master</cite> is referring to the remote branch,
+because you are basically telling GIT
+to rebase the <cite>origin/master</cite> branch onto the current branch.</p>
+</div>
+<div class="section" id="more-examples">
+<h4>More examples<a class="headerlink" href="#more-examples" title="Permalink to this headline">¶</a></h4>
+<p>You can fetch multiple branches by name…</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">origin</span> <span class="n">master</span> <span class="n">stable</span> <span class="n">oldstable</span>
+</pre></div>
+</div>
+<p>You can merge multiple branches…</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">merge</span> <span class="n">origin</span><span class="o">/</span><span class="n">master</span> <span class="n">hotfix</span><span class="o">-</span><span class="mi">2275</span> <span class="n">hotfix</span><span class="o">-</span><span class="mi">2276</span> <span class="n">hotfix</span><span class="o">-</span><span class="mi">2290</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../cheatsheets.html">Cheat Sheets</a><ul>
+      <li>Previous: <a href="../cheatsheets.html" title="previous chapter">Cheat Sheets</a></li>
+      <li>Next: <a href="../../license.html" title="next chapter">License</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Peter Dahl Vestergaard.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="../../_sources/CheatSheets/Git/GitCheatSheet.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
