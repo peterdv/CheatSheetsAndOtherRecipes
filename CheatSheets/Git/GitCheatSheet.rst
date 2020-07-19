@@ -231,8 +231,8 @@ To make a release, use the process:
 
    
    git flow release finish <your release>
-   git flow release publish <your release>
    git push origin develop
+   git push origin master
    # or if you did not track develop: git push --set-upstream origin develop
    git push origin --tags
    
