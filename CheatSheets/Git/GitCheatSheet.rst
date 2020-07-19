@@ -135,6 +135,9 @@ Start to implement a new feature following the process:
 	
    * and switch back to the `develop` branch.
 
+#. Publish the `develop` branch. 
+
+#. Publish your tags 
 
 
 ::
@@ -145,6 +148,8 @@ Start to implement a new feature following the process:
    # Then, do the work 
    
    git flow feature finish <name>
+   git push origin develop
+   git push origin --tags
    
 For feature branches, the `<base>` argument must be a commit on `develop`.
 
@@ -216,7 +221,7 @@ To make a release, use the process:
 
    * Removes the release branch.
 
-#. Publish the release 
+#. Publish the `master` branch. 
 
 #. Publish the `develop` branch. 
 
@@ -231,8 +236,8 @@ To make a release, use the process:
 
    
    git flow release finish <your release>
-   git push origin develop
    git push origin master
+   git push origin develop
    # or if you did not track develop: git push --set-upstream origin develop
    git push origin --tags
    
