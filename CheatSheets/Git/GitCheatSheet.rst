@@ -118,7 +118,7 @@ Start to implement a new feature following the process:
 #. List any local feature branches
    (to ensure that you have not started on this once before).
 
-#. Create a local feature branch based on `develop` and swithc to it.
+#. Create a local feature branch based on `develop` and swith to it.
 
 #. Then,
       
