@@ -49,10 +49,10 @@ Based on two central branches `master` and `develop`,
 the overall processes of `git-flow` are:
 
 #. A `develop` branch is created from `master`.
-#. A release branch is created from `develop`.
 #. Feature branches are created from `develop`.       
 #. When a feature is complete
    it is merged into the `develop` branch.
+#. A release branch is created from `develop`.
 #. When the release branch is done
    it is merged into `develop` and `master`.
 #. If an issue in `master` is detected,
